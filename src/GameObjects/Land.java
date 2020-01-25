@@ -5,6 +5,8 @@ import java.awt.image.ImageObserver;
 
 public class Land extends Tile {
     private String type;
+    private boolean hasCrop = false;
+
 
     static Image i;
 
