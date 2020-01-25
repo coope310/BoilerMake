@@ -47,7 +47,7 @@ public class ArcadeDemo extends AnimationPanel
 
     //rain
     //upgrading your rain barrels increases this
-    double baseRainAmount = 100;
+    double baseRainAmount = 10;
 
     //Instance Variables
     //-------------------------------------------------------
@@ -110,23 +110,12 @@ public class ArcadeDemo extends AnimationPanel
                         int waterNeeded = p.getWaterCost();
                         if (waterNeeded < water) {
                             water -= waterNeeded;
-                            l.update((int) timeRate, waterNeeded);
+                            l.update( timeRate, (int) Math.round((waterNeeded * timeRate)));
                         } else {
-                            l.update((int) timeRate, 0);
+                            l.update(timeRate, 0);
                         }
                     }
-                    g.setFont(new Font("TimesRoman", Font.BOLD, 18));
-                    g.setColor(Color.GREEN);
-                    switch (l.getCrop()) {
-                        case WHEAT:
-                            g.drawString("W", l.getBounds().x, l.getBounds().y + l.getBounds().height);
-                            break;
-                        case CORN:
-                            g.drawString("C", l.getBounds().x, l.getBounds().y + l.getBounds().height);
-                            break;
-                    }
-                    g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
-                    g.setColor(Color.BLACK);
+
                 }
             }
         }
@@ -150,12 +139,13 @@ public class ArcadeDemo extends AnimationPanel
                 g.drawString(u.getInventory() + "", u.getxPos() + 120, u.getyPos() + 40);
             }
         }
-//        g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+
         g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
 
         farm.draw(g, this);
 
         //TIME STUFF
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
         g.drawImage(timeImage, timeCircle.getxPos(), timeCircle.getyPos(), timeCircle.getRadius(), timeCircle.getRadius(), this);
         if(timeMoves)
             time += timeRate/10;
