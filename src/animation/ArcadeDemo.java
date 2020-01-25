@@ -137,7 +137,7 @@ public class ArcadeDemo extends AnimationPanel
 
         for (Upgrade u : s.upgradeList) {
             u.draw(g, this);
-            if (u.getCost() != 0) {
+            if (u.getCost() < 400) {
                 g.setFont(new Font("TimesRoman", Font.BOLD, 18));
                 g.drawString(u.getInventory() + "", u.getxPos() + 120, u.getyPos() + 40);
             }
@@ -222,22 +222,25 @@ public class ArcadeDemo extends AnimationPanel
 
         for(Land l : lands) {
             if(l.getBounds().contains(mouseLoc)) {
-                if (plantChoice != -1) {
-                    if (s.getUpgradeList().get(plantChoice).getInventory() <= 0) {
-                        inventoryButtons.get(plantChoice).setSelected(false);
-                        plantChoice = -1;
-                        break;
-                    }
-                    switch (plantChoice) {
-                        case 0:
-                            l.plantCrop(WHEAT);
+                if (!l.hasCrop()) {
+                    if (plantChoice != -1) {
+                        if (s.getUpgradeList().get(plantChoice).getInventory() <= 0) {
+                            inventoryButtons.get(plantChoice).setSelected(false);
+                            plantChoice = -1;
                             break;
-                        case 1:
-                            l.plantCrop(CORN);
-                            break;
+                        }
+                        switch (plantChoice) {
+                            case 0:
+                                l.plantCrop(WHEAT);
+                                break;
+                            case 1:
+                                l.plantCrop(CORN);
+                                break;
+                        }
+                        s.getUpgradeList().get(plantChoice).decreaseInventory();
                     }
-                    s.getUpgradeList().get(plantChoice).decreaseInventory();
                 }
+
             }
         }
 

@@ -30,7 +30,6 @@ public class Land extends Tile {
         Color fontColor = Color.WHITE;
         Image i = land0;
         if(hasCrop) {
-            System.out.println(cropAge);
             i = land1;
             if (cropAge > 2 * (crop.getTimeToGrowInTime() / 5)) {
                 i = land2;
