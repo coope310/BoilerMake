@@ -5,6 +5,7 @@ import java.awt.image.ImageObserver;
 
 public class Land extends Tile {
     private String type;
+
     static Image i;
 
     public Land(Rectangle r, String t) {

@@ -12,7 +12,6 @@ import GameObjects.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
-import java.applet.AudioClip;
 import java.util.ArrayList;
 
 
@@ -29,6 +28,8 @@ public class ArcadeDemo extends AnimationPanel
     int gridWidth = 10;
     int gridHeight = 10;
     int tileSize = 50;
+    int farmSize = 200;
+    Farm farm = new Farm(new Rectangle(farmGrid.x + farmGrid.width/2-farmSize/2, farmGrid.y + farmGrid.height/2-farmSize/2, farmSize, farmSize));
     //Constructor
     //-------------------------------------------------------
     public ArcadeDemo()
@@ -51,6 +52,8 @@ public class ArcadeDemo extends AnimationPanel
         for(Land l : lands) {
             l.draw(g, this);
         }
+
+        farm.draw(g, this);
         return g;
     }//--end of renderFrame method--
 
@@ -126,9 +129,10 @@ public class ArcadeDemo extends AnimationPanel
 //-----------------------------------------------------------------------*/
     public void initGraphics()
     {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Tile.initGraphics(toolkit);
-        Land.initGraphics(toolkit);
+        Toolkit t = Toolkit.getDefaultToolkit();
+        Tile.initGraphics(t);
+        Land.initGraphics(t);
+        Farm.initGraphics(t);
 
     } //--end of initGraphics()--
 
