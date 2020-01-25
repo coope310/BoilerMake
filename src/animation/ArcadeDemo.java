@@ -47,6 +47,8 @@ public class ArcadeDemo extends AnimationPanel
 
     Circle timeCircle = new Circle(10, 470, 45);
     Circle pauseCircle = new Circle(10, 420, 45);
+    Rectangle harvestBounds = new Rectangle(10, 370, 45, 45);
+    boolean harvestMode = false;
 
     //rain
     //upgrading your rain barrels increases this
@@ -98,9 +100,13 @@ public class ArcadeDemo extends AnimationPanel
         g.drawString("water: " + water, 10, 70);
 
         //will it rain?
-        double rainToday = Math.random();
-        if(rainToday < rainChance) {
-            water += baseRainAmount*(0.5+Math.random());
+        if(timeMoves) {
+            for (int i = 0; i < timeRate; i++) {
+                double rainToday = Math.random();
+                if (rainToday < rainChance) {
+                    water += baseRainAmount * (0.5 + Math.random());
+                }
+            }
         }
 
         g.fillRect(farmGrid.x, farmGrid.y, farmGrid.width, farmGrid.height);
@@ -147,8 +153,12 @@ public class ArcadeDemo extends AnimationPanel
 
         farm.draw(g, this);
 
-
-
+        //harvesting
+        g.drawImage(sickle, harvestBounds.x, harvestBounds.y, harvestBounds.width, harvestBounds.height, this);
+        if(harvestMode) {
+            g.setColor(Color.BLACK);
+            g.drawRect(harvestBounds.x, harvestBounds.y, harvestBounds.width, harvestBounds.height);
+        }
         //TIME STUFF
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
         g.drawImage(timeImage, timeCircle.getxPos(), timeCircle.getyPos(), timeCircle.getRadius(), timeCircle.getRadius(), this);
@@ -191,12 +201,16 @@ public class ArcadeDemo extends AnimationPanel
     //-------------------------------------------------------
     public void mouseClicked(MouseEvent e) {
         Point mouseLoc = new Point(e.getX(), e.getY());
-        if(timeCircle.contains(mouseLoc)) {
-            if(timeRate < 16) {
+        if (timeCircle.contains(mouseLoc)) {
+            if (timeRate < 16) {
                 timeRate *= 2;
             } else {
                 timeRate = 0.5;
             }
+        }
+
+        if (harvestBounds.contains(mouseLoc)) {
+            harvestMode = !harvestMode;
         }
 
         for (InventoryButtons ib : inventoryButtons) {
@@ -216,13 +230,13 @@ public class ArcadeDemo extends AnimationPanel
             }
         }
 
-        if(pauseCircle.contains(mouseLoc)) {
+        if (pauseCircle.contains(mouseLoc)) {
             timeMoves = !timeMoves;
         }
 
-        for(Land l : lands) {
-            if(l.getBounds().contains(mouseLoc)) {
-                if (!l.hasCrop()) {
+        for (Land l : lands) {
+            if (l.getBounds().contains(mouseLoc)) {
+                if (!harvestMode) {
                     if (plantChoice != -1) {
                         if (s.getUpgradeList().get(plantChoice).getInventory() <= 0) {
                             inventoryButtons.get(plantChoice).setSelected(false);
@@ -239,15 +253,40 @@ public class ArcadeDemo extends AnimationPanel
                         }
                         s.getUpgradeList().get(plantChoice).decreaseInventory();
                     }
+                } else {
+                    Plant crop = l.getCrop();
+                    if (l.readyToHarvest()) {
+                        l.harvestCrop();
+                        money += crop.getPrice();
+                    }
+
+                    if (!l.hasCrop()) {
+                        if (plantChoice != -1) {
+                            if (s.getUpgradeList().get(plantChoice).getInventory() <= 0) {
+                                inventoryButtons.get(plantChoice).setSelected(false);
+                                plantChoice = -1;
+                                break;
+                            }
+                            switch (plantChoice) {
+                                case 0:
+                                    l.plantCrop(WHEAT);
+                                    break;
+                                case 1:
+                                    l.plantCrop(CORN);
+                                    break;
+                            }
+                            s.getUpgradeList().get(plantChoice).decreaseInventory();
+                        }
+                    }
+
                 }
-
             }
-        }
 
-        for (Upgrade u : s.getUpgradeList()) {
-            if (u.getHitbox().contains(mouseLoc)) {
-                money -= u.getCost();
-                u.increaseInventory();
+            for (Upgrade u : s.getUpgradeList()) {
+                if (u.getHitbox().contains(mouseLoc)) {
+                    money -= u.getCost();
+                    u.increaseInventory();
+                }
             }
         }
     }
