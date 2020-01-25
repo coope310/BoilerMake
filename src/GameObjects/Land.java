@@ -18,6 +18,7 @@ public class Land extends Tile {
     static Image land2;
     static Image land3;
     static Image land4;
+    static Image land5;
 
 
     public Land(Rectangle r) {
@@ -39,6 +40,9 @@ public class Land extends Tile {
                 i = land4;
             }
         }
+        if(readyToHarvest)
+            i = land5;
+
 
         g.drawImage(i, getBounds().x, getBounds().y, getBounds().width, getBounds().height, it);
         g.setColor(Color.BLACK);
@@ -83,6 +87,7 @@ public class Land extends Tile {
         land2 = t.getImage("land2.jpg");
         land3 = t.getImage("land3.jpg");
         land4 = t.getImage("land4.jpg");
+        land5 = t.getImage("land5.jpg");
     }
 
     public void plantCrop(Plant p) {
@@ -90,5 +95,4 @@ public class Land extends Tile {
         readyToHarvest = false;
         crop = p;
     }
-
 }

@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Random;
 
 import static GameObjects.Plant.CORN;
 
@@ -25,6 +26,11 @@ public class ArcadeDemo extends AnimationPanel
     //-------------------------------------------------------
     Image timeImage;
     Image pauseImage;
+    Image arrowDown;
+    Image arrowRight;//i started to add arrows so you can select entire rows but i think that will take too long so nevermind
+
+    double rainChance = 0.05;
+
     //Game Variables
     //-------------------------------------------------------
     int money = 5000;
@@ -36,6 +42,11 @@ public class ArcadeDemo extends AnimationPanel
 
     Circle timeCircle = new Circle(10, 470, 45);
     Circle pauseCircle = new Circle(10, 420, 45);
+
+    //rain
+    //upgrading your rain barrels increases this
+    double baseRainAmount = 100;
+
     //Instance Variables
     //-------------------------------------------------------
     Shop s = new Shop();
@@ -46,6 +57,7 @@ public class ArcadeDemo extends AnimationPanel
     int tileSize = 50;
     int farmSize = 200;
     Farm farm = new Farm(new Rectangle(farmGrid.x + farmGrid.width/2-farmSize/2, farmGrid.y + farmGrid.height/2-farmSize/2, farmSize, farmSize));
+
     //Constructor
     //-------------------------------------------------------
     public ArcadeDemo()
@@ -72,6 +84,12 @@ public class ArcadeDemo extends AnimationPanel
         g.drawString("$" + money, 10, 33);
         g.drawString("time: " + ((int) time*10)/10, 10, 55);
         g.drawString("water: " + water, 10, 70);
+
+        //will it rain?
+        double rainToday = Math.random();
+        if(rainToday < rainChance) {
+            water += baseRainAmount*(0.5+Math.random());
+        }
 
         g.fillRect(farmGrid.x, farmGrid.y, farmGrid.width, farmGrid.height);
         for(Land l : lands) {
@@ -216,6 +234,8 @@ public class ArcadeDemo extends AnimationPanel
         Upgrade.initGraphics(t);
         timeImage = t.getImage("time.jpg");
         pauseImage = t.getImage("pause.jpg");
+        arrowDown = t.getImage("arrowdown.jpg");
+        arrowRight = t.getImage("arrowright.jpg");
 
     } //--end of initGraphics()--
 
