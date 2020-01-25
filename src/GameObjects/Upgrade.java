@@ -7,7 +7,6 @@ public class Upgrade {
     private int xPos;
     private int yPos;
     private int inventory;
-    static Image title;
     static Image wheat;
     static Image corn;
     static Image beans;
@@ -48,11 +47,12 @@ public class Upgrade {
         inventory++;
     }
 
+    public void decreaseInventory() {
+        inventory--;
+    }
+
     public Graphics draw(Graphics g, ImageObserver it) {
         switch (cost) {
-            case 0:
-                g.drawImage(title, xPos, yPos, it);
-                break;
             case 75:
                 g.drawImage(wheat, xPos, yPos, it);
                 break;
@@ -64,7 +64,6 @@ public class Upgrade {
     }
 
     public static void initGraphics(Toolkit t) {
-        title = t.getImage("shopTitle.jpg");
         wheat = t.getImage("wheatU.jpg");
         corn = t.getImage("cornU.jpg");
     }

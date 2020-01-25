@@ -9,7 +9,6 @@ public class Shop {
 
     public Shop() {
         upgradeList = new ArrayList<>();
-        upgradeList.add(new Upgrade(575, 20, 0));
         upgradeList.add(new Upgrade(575,  80, 75));
         upgradeList.add(new Upgrade(575,  140, 100));
     }
