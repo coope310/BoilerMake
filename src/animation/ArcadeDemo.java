@@ -17,6 +17,7 @@ import java.applet.AudioClip;
 import java.awt.FontMetrics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 
 public class ArcadeDemo extends AnimationPanel
@@ -27,13 +28,20 @@ public class ArcadeDemo extends AnimationPanel
     //Instance Variables
     //-------------------------------------------------------
     Shop s = new Shop();
-    Tile t = new Tile();
-
+    ArrayList<Land> lands = new ArrayList<>();
+    int gridWidth = 10;
+    int gridHeight = 10;
+    int tileSize = 10;
     //Constructor
     //-------------------------------------------------------
     public ArcadeDemo()
     {   //Enter the name and width and height.
         super("AgriHack", 750, 550);
+        for(int i = 0; i < gridWidth; i++) {
+            for(int j = 0; j < gridHeight; j++) {
+                lands.add(new Land(new Rectangle(i*10, j*10, tileSize, tileSize), "empty"));
+            }
+        }
     }
 
     //The renderFrame method is the one which is called each time a frame is drawn.
@@ -41,7 +49,10 @@ public class ArcadeDemo extends AnimationPanel
     protected Graphics renderFrame(Graphics g) {
 
         s.draw(g);
-        t.draw(g, this);
+        for(Land l : lands) {
+            l.draw(g, this);
+        }
+        System.out.println(lands.size());
         return g;
     }//--end of renderFrame method--
 
@@ -119,6 +130,7 @@ public class ArcadeDemo extends AnimationPanel
     {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Tile.initGraphics(toolkit);
+        Land.initGraphics(toolkit);
 
     } //--end of initGraphics()--
 
