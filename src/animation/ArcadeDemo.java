@@ -15,6 +15,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import static GameObjects.Plant.CORN;
+
 
 public class ArcadeDemo extends AnimationPanel
 {
@@ -26,7 +28,7 @@ public class ArcadeDemo extends AnimationPanel
     int money = 5000;
     int water = 100;
 
-    int time = 0;
+    double time = 0;
     double timeRate = 1;
 
     Circle timeCircle = new Circle(10, 470, 50);
@@ -47,7 +49,7 @@ public class ArcadeDemo extends AnimationPanel
         super("AgriHack", 750, 575);
         for(int i = 0; i < gridWidth; i++) {
             for(int j = 0; j < gridHeight; j++) {
-                lands.add(new Land(new Rectangle(farmGrid.x + i*tileSize, farmGrid.y + j*tileSize, tileSize, tileSize), "empty"));
+                lands.add(new Land(new Rectangle(farmGrid.x + i*tileSize, farmGrid.y + j*tileSize, tileSize, tileSize)));
             }
         }
     }
@@ -58,9 +60,11 @@ public class ArcadeDemo extends AnimationPanel
 
         s.draw(g);
         g.setColor(Color.BLACK);
+        g.drawString("time: " + ((int) time*10)/10, 5, 50);
         g.fillRect(farmGrid.x, farmGrid.y, farmGrid.width, farmGrid.height);
         for(Land l : lands) {
             l.draw(g, this);
+            l.update((int) timeRate, 10);
         }
 
         farm.draw(g, this);
@@ -68,7 +72,7 @@ public class ArcadeDemo extends AnimationPanel
         //TIME STUFF
         g.setColor(Color.WHITE);
         timeCircle.draw(g);
-        time += timeRate;
+        time += timeRate/10;
         g.setColor(Color.BLACK);
         g.drawString(timeRate + "", 25, 500);
         return g;
@@ -111,6 +115,13 @@ public class ArcadeDemo extends AnimationPanel
                 timeRate = 0.5;
             }
         }
+
+        for(Land l : lands) {
+            if(l.getBounds().contains(mouseLoc)) {
+                l.plantCrop(CORN);
+            }
+        }
+
     }
 
     public void mouseMoved(MouseEvent e) {

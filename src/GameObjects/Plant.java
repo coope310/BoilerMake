@@ -1,6 +1,4 @@
-package plants;
-
-import java.math.BigDecimal;
+package GameObjects;
 
 public enum Plant {
     CORN (100, 2, 300, 0.5),
@@ -45,6 +43,10 @@ public enum Plant {
 
     public double getTimeToGrow() {
         return timeToGrow;
+    }
+
+    public double getTimeToGrowInTime() {
+        return timeToGrow * 1000;
     }
 
     public void setTimeToGrow(double timeToGrow) {
