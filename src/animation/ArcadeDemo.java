@@ -30,12 +30,15 @@ public class ArcadeDemo extends AnimationPanel
     Image arrowDown;
     Image arrowRight;//i started to add arrows so you can select entire rows but i think that will take too long so nevermind
 
+    Image sickle;
+
     double rainChance = 0.05;
 
     //Game Variables
     //-------------------------------------------------------
     int money = 5000;
     int water = 10000;
+
     int plantChoice = -1;
 
     double time = 0;
@@ -143,6 +146,8 @@ public class ArcadeDemo extends AnimationPanel
         g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
 
         farm.draw(g, this);
+
+
 
         //TIME STUFF
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -293,6 +298,7 @@ public class ArcadeDemo extends AnimationPanel
         arrowDown = t.getImage("arrowdown.jpg");
         arrowRight = t.getImage("arrowright.jpg");
         title = t.getImage("shopTitle.jpg");
+        sickle = t.getImage("sickle.png");
 
     } //--end of initGraphics()--
 
