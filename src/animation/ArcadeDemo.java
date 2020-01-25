@@ -55,8 +55,10 @@ public class ArcadeDemo extends AnimationPanel
     //The renderFrame method is the one which is called each time a frame is drawn.
     //-------------------------------------------------------
     protected Graphics renderFrame(Graphics g) {
-//        s.draw(g, this);
         g.setColor(Color.BLACK);
+
+        g.drawString("Money:", 10, 20);
+        g.drawString("$" + money, 10, 33);
         g.fillRect(farmGrid.x, farmGrid.y, farmGrid.width, farmGrid.height);
         for(Land l : lands) {
             l.draw(g, this);
@@ -64,7 +66,12 @@ public class ArcadeDemo extends AnimationPanel
 
         for (Upgrade u : s.upgradeList) {
             u.draw(g, this);
+            if (u.getCost() != 0) {
+                g.setFont(new Font("TimesRoman", Font.BOLD, 18));
+                g.drawString(u.getInventory() + "", u.getxPos() + 120, u.getyPos() + 40);
+            }
         }
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
 
         farm.draw(g, this);
 
@@ -114,6 +121,13 @@ public class ArcadeDemo extends AnimationPanel
                 timeRate = 0.5;
             }
         }
+
+        for (Upgrade u : s.getUpgradeList()) {
+            if (u.getHitbox().contains(mouseLoc)) {
+                money -= u.getCost();
+                u.increaseInventory();
+            }
+        }
     }
 
     public void mouseMoved(MouseEvent e) {
@@ -159,7 +173,7 @@ public class ArcadeDemo extends AnimationPanel
         Tile.initGraphics(t);
         Land.initGraphics(t);
         Farm.initGraphics(t);
-        Upgrade.initGraphics(toolkit);
+        Upgrade.initGraphics(t);
 
     } //--end of initGraphics()--
 
