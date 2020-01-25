@@ -60,12 +60,24 @@ public class ArcadeDemo extends AnimationPanel
 
         s.draw(g);
         g.setColor(Color.BLACK);
+
+        g.drawString("Money:", 10, 20);
+        g.drawString("$" + money, 10, 33);
         g.drawString("time: " + ((int) time*10)/10, 5, 50);
         g.fillRect(farmGrid.x, farmGrid.y, farmGrid.width, farmGrid.height);
         for(Land l : lands) {
             l.draw(g, this);
             l.update((int) timeRate, 10);
         }
+
+        for (Upgrade u : s.upgradeList) {
+            u.draw(g, this);
+            if (u.getCost() != 0) {
+                g.setFont(new Font("TimesRoman", Font.BOLD, 18));
+                g.drawString(u.getInventory() + "", u.getxPos() + 120, u.getyPos() + 40);
+            }
+        }
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
 
         farm.draw(g, this);
 
@@ -122,6 +134,13 @@ public class ArcadeDemo extends AnimationPanel
             }
         }
 
+
+        for (Upgrade u : s.getUpgradeList()) {
+            if (u.getHitbox().contains(mouseLoc)) {
+                money -= u.getCost();
+                u.increaseInventory();
+            }
+        }
     }
 
     public void mouseMoved(MouseEvent e) {
