@@ -30,7 +30,7 @@ public class ArcadeDemo extends AnimationPanel
     //-------------------------------------------------------
     public ArcadeDemo()
     {   //Enter the name and width and height.
-        super("name", 500, 700);
+        super("AgriHack", 750, 550);
     }
 
     //The renderFrame method is the one which is called each time a frame is drawn.

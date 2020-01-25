@@ -37,11 +37,11 @@ public abstract class AnimationPanel extends JPanel implements KeyListener, Mous
         this.setPreferredSize(new Dimension(width,height));
 //         this.setSize(new Dimension(width,height));
         this.setLocation(80,80);    //move to the right
-        this.setVisible (true);         // make it visible to the user
-        this.setFocusable(true);
         this.addKeyListener(this);
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
+        this.setVisible (true);         // make it visible to the user
+        this.setFocusable(true);
     }
     public String getMyName() { return myName; }
 
