@@ -133,6 +133,9 @@ public class ArcadeDemo extends AnimationPanel
 
         g.drawImage(title, 575, 20, this);
         for (InventoryButtons ib : inventoryButtons) {
+            if(s.upgradeList.get(ib.getPlantChoice()).getInventory() == 0) {
+                ib.setSelected(false);
+            }
             if (ib.isSelected()) {
                 g.setColor(Color.RED);
             }
@@ -202,9 +205,16 @@ public class ArcadeDemo extends AnimationPanel
         }
 
         for (InventoryButtons ib : inventoryButtons) {
-            ib.setSelected(false);
             if (ib.getBounds().contains(mouseLoc)) {
-                if (s.getUpgradeList().get(ib.getPlantChoice()).getInventory() >= 0) {
+                if (ib.isSelected()) {
+                    ib.setSelected(false);
+                    plantChoice = -1;
+                    break;
+                }
+                for (InventoryButtons ib2 : inventoryButtons) {
+                    ib2.setSelected(false);
+                }
+                if (s.getUpgradeList().get(ib.getPlantChoice()).getInventory() > 0) {
                     plantChoice = ib.getPlantChoice();
                     ib.setSelected(true);
                 }
@@ -218,6 +228,11 @@ public class ArcadeDemo extends AnimationPanel
         for(Land l : lands) {
             if(l.getBounds().contains(mouseLoc)) {
                 if (plantChoice != -1) {
+                    if (s.getUpgradeList().get(plantChoice).getInventory() <= 0) {
+                        inventoryButtons.get(plantChoice).setSelected(false);
+                        plantChoice = -1;
+                        break;
+                    }
                     switch (plantChoice) {
                         case 0:
                             l.plantCrop(WHEAT);
@@ -227,8 +242,6 @@ public class ArcadeDemo extends AnimationPanel
                             break;
                     }
                     s.getUpgradeList().get(plantChoice).decreaseInventory();
-                    inventoryButtons.get(plantChoice).setSelected(false);
-                    plantChoice = -1;
                 }
             }
         }
