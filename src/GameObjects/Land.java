@@ -9,6 +9,10 @@ public class Land extends Tile {
     private Plant crop;
     private int cropAge = 0;
 
+    public boolean hasCrop() {return hasCrop;}
+    public boolean readyToHarvest() {return readyToHarvest;}
+    public Plant getCrop() {return crop;}
+
     static Image land0;
     static Image land1;
     static Image land2;
@@ -24,9 +28,7 @@ public class Land extends Tile {
     public Graphics draw(Graphics g, ImageObserver it) {
         Image i = land0;
         if(hasCrop) {
-            if (cropAge > crop.getTimeToGrowInTime() / 5) {
-                i = land1;
-            }
+            i = land1;
             if (cropAge > 2 * (crop.getTimeToGrowInTime() / 5)) {
                 i = land2;
             }
@@ -38,7 +40,7 @@ public class Land extends Tile {
             }
         }
 
-        g.drawImage(i, getBounds().x, getBounds().y, 49, 49, it);
+        g.drawImage(i, getBounds().x, getBounds().y, getBounds().width, getBounds().height, it);
         g.setColor(Color.BLACK);
         g.drawRect(getBounds().x, getBounds().y, getBounds().width, getBounds().height);
         return g;
@@ -48,9 +50,17 @@ public class Land extends Tile {
         if(hasCrop) {
             if (waterGiven >= crop.getWaterCost() * timePassed) {
                 cropAge += timePassed;
+            } else {
+                cropAge -= timePassed;
             }
             if (cropAge >= crop.getTimeToGrowInTime()) {
                 readyToHarvest = true;
+            }
+            if(cropAge < 0) {
+                //plant dies!
+                readyToHarvest = false;
+                hasCrop = false;
+                cropAge = 0;
             }
         }
     }

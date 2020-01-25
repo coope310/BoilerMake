@@ -28,7 +28,7 @@ public class ArcadeDemo extends AnimationPanel
     //Game Variables
     //-------------------------------------------------------
     int money = 5000;
-    int water = 100;
+    int water = 10000;
 
     double time = 0;
     boolean timeMoves = true;
@@ -76,8 +76,19 @@ public class ArcadeDemo extends AnimationPanel
         g.fillRect(farmGrid.x, farmGrid.y, farmGrid.width, farmGrid.height);
         for(Land l : lands) {
             l.draw(g, this);
-            if(timeRate > 0)
-                l.update((int) timeRate, 10);
+            if(timeRate > 0) {
+                if(l.hasCrop() && !l.readyToHarvest()) {
+                    Plant p = l.getCrop();
+                    int waterNeeded = p.getWaterCost();
+                    if(waterNeeded < water) {
+                        water -= waterNeeded;
+                        l.update((int) timeRate, waterNeeded);
+                    } else {
+                        l.update((int) timeRate, 0);
+                    }
+
+                }
+            }
         }
 
         for (Upgrade u : s.upgradeList) {
