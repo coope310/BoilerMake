@@ -171,10 +171,6 @@ public class ArcadeDemo extends AnimationPanel
         return g;
     }//--end of renderFrame method--
 
-
-
-
-
     /**
      * NOT MY CODE "BORROWED" FROM STACK OVERFLOW
      * Draw a String centered in the middle of a Rectangle.
@@ -259,34 +255,15 @@ public class ArcadeDemo extends AnimationPanel
                         l.harvestCrop();
                         money += crop.getPrice();
                     }
-
-                    if (!l.hasCrop()) {
-                        if (plantChoice != -1) {
-                            if (s.getUpgradeList().get(plantChoice).getInventory() <= 0) {
-                                inventoryButtons.get(plantChoice).setSelected(false);
-                                plantChoice = -1;
-                                break;
-                            }
-                            switch (plantChoice) {
-                                case 0:
-                                    l.plantCrop(WHEAT);
-                                    break;
-                                case 1:
-                                    l.plantCrop(CORN);
-                                    break;
-                            }
-                            s.getUpgradeList().get(plantChoice).decreaseInventory();
-                        }
-                    }
-
                 }
             }
 
-            for (Upgrade u : s.getUpgradeList()) {
-                if (u.getHitbox().contains(mouseLoc)) {
-                    money -= u.getCost();
-                    u.increaseInventory();
-                }
+        }
+        for (Upgrade u : s.getUpgradeList()) {
+            if (u.getHitbox().contains(mouseLoc)) {
+                System.out.println(u.getCost());
+                money -= u.getCost();
+                u.increaseInventory();
             }
         }
     }
@@ -303,12 +280,22 @@ public class ArcadeDemo extends AnimationPanel
     {
 
         char c = e.getKeyChar();
+
     }
 
     public void keyPressed(KeyEvent e)
     {
 
-        int v = e.getKeyCode();
+        char c = e.getKeyChar();
+        if(c == 'h') {
+            for(Land l : lands) {
+                Plant crop = l.getCrop();
+                if (l.readyToHarvest()) {
+                    l.harvestCrop();
+                    money += crop.getPrice();
+                }
+            }
+        }
 
     }
 
