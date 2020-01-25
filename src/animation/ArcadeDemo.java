@@ -17,13 +17,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static GameObjects.Plant.CORN;
-
+import static GameObjects.Plant.WHEAT;
 
 public class ArcadeDemo extends AnimationPanel
 {
 
     //Constants
     //-------------------------------------------------------
+    Image title;
     Image timeImage;
     Image pauseImage;
     Image arrowDown;
@@ -35,6 +36,7 @@ public class ArcadeDemo extends AnimationPanel
     //-------------------------------------------------------
     int money = 5000;
     int water = 10000;
+    int plantChoice = -1;
 
     double time = 0;
     boolean timeMoves = true;
@@ -50,6 +52,7 @@ public class ArcadeDemo extends AnimationPanel
     //Instance Variables
     //-------------------------------------------------------
     Shop s = new Shop();
+
     ArrayList<Land> lands = new ArrayList<>();
     Rectangle farmGrid = new Rectangle(75, 20, 500, 500);
     int gridWidth = 10;
@@ -58,15 +61,20 @@ public class ArcadeDemo extends AnimationPanel
     int farmSize = 200;
     Farm farm = new Farm(new Rectangle(farmGrid.x + farmGrid.width/2-farmSize/2, farmGrid.y + farmGrid.height/2-farmSize/2, farmSize, farmSize));
 
+    ArrayList<InventoryButtons> inventoryButtons = new ArrayList<>();
     //Constructor
     //-------------------------------------------------------
     public ArcadeDemo()
     {   //Enter the name and width and height.
-        super("AgriHack", 750, 575);
+        super("AgriHack", 900, 575);
         for(int i = 0; i < gridWidth; i++) {
             for(int j = 0; j < gridHeight; j++) {
                 lands.add(new Land(new Rectangle(farmGrid.x + i*tileSize, farmGrid.y + j*tileSize, tileSize, tileSize)));
             }
+        }
+
+        for (int i = 0; i < 2; i++) {
+            inventoryButtons.add(new InventoryButtons(new Rectangle(675, 80 + 60 * i, 60, 60 ), i));
         }
     }
 
@@ -80,6 +88,7 @@ public class ArcadeDemo extends AnimationPanel
 
         //stat variables
         g.setColor(Color.BLACK);
+
         g.drawString("Money:", 10, 20);
         g.drawString("$" + money, 10, 33);
         g.drawString("time: " + ((int) time*10)/10, 10, 55);
@@ -95,18 +104,40 @@ public class ArcadeDemo extends AnimationPanel
         for(Land l : lands) {
             l.draw(g, this);
             if(timeRate > 0) {
-                if(l.hasCrop() && !l.readyToHarvest()) {
-                    Plant p = l.getCrop();
-                    int waterNeeded = p.getWaterCost();
-                    if(waterNeeded < water) {
-                        water -= waterNeeded;
-                        l.update((int) timeRate, waterNeeded);
-                    } else {
-                        l.update((int) timeRate, 0);
+                if(l.hasCrop()) {
+                    if (!l.readyToHarvest()) {
+                        Plant p = l.getCrop();
+                        int waterNeeded = p.getWaterCost();
+                        if (waterNeeded < water) {
+                            water -= waterNeeded;
+                            l.update((int) timeRate, waterNeeded);
+                        } else {
+                            l.update((int) timeRate, 0);
+                        }
                     }
-
+                    g.setFont(new Font("TimesRoman", Font.BOLD, 18));
+                    g.setColor(Color.GREEN);
+                    switch (l.getCrop()) {
+                        case WHEAT:
+                            g.drawString("W", l.getBounds().x, l.getBounds().y + l.getBounds().height);
+                            break;
+                        case CORN:
+                            g.drawString("C", l.getBounds().x, l.getBounds().y + l.getBounds().height);
+                            break;
+                    }
+                    g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
+                    g.setColor(Color.BLACK);
                 }
             }
+        }
+
+        g.drawImage(title, 575, 20, this);
+        for (InventoryButtons ib : inventoryButtons) {
+            if (ib.isSelected()) {
+                g.setColor(Color.RED);
+            }
+            g.drawRect(ib.getBounds().x, ib.getBounds().y, ib.getBounds().width, ib.getBounds().height);
+            g.setColor(Color.BLACK);
         }
 
         for (Upgrade u : s.upgradeList) {
@@ -116,7 +147,8 @@ public class ArcadeDemo extends AnimationPanel
                 g.drawString(u.getInventory() + "", u.getxPos() + 120, u.getyPos() + 40);
             }
         }
-        g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+//        g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
 
         farm.draw(g, this);
 
@@ -169,16 +201,37 @@ public class ArcadeDemo extends AnimationPanel
             }
         }
 
+        for (InventoryButtons ib : inventoryButtons) {
+            ib.setSelected(false);
+            if (ib.getBounds().contains(mouseLoc)) {
+                if (s.getUpgradeList().get(ib.getPlantChoice()).getInventory() >= 0) {
+                    plantChoice = ib.getPlantChoice();
+                    ib.setSelected(true);
+                }
+            }
+        }
+
         if(pauseCircle.contains(mouseLoc)) {
             timeMoves = !timeMoves;
         }
 
         for(Land l : lands) {
             if(l.getBounds().contains(mouseLoc)) {
-                l.plantCrop(CORN);
+                if (plantChoice != -1) {
+                    switch (plantChoice) {
+                        case 0:
+                            l.plantCrop(WHEAT);
+                            break;
+                        case 1:
+                            l.plantCrop(CORN);
+                            break;
+                    }
+                    s.getUpgradeList().get(plantChoice).decreaseInventory();
+                    inventoryButtons.get(plantChoice).setSelected(false);
+                    plantChoice = -1;
+                }
             }
         }
-
 
         for (Upgrade u : s.getUpgradeList()) {
             if (u.getHitbox().contains(mouseLoc)) {
@@ -236,6 +289,7 @@ public class ArcadeDemo extends AnimationPanel
         pauseImage = t.getImage("pause.jpg");
         arrowDown = t.getImage("arrowdown.jpg");
         arrowRight = t.getImage("arrowright.jpg");
+        title = t.getImage("shopTitle.jpg");
 
     } //--end of initGraphics()--
 
