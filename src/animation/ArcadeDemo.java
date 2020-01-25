@@ -259,13 +259,19 @@ public class ArcadeDemo extends AnimationPanel
             }
 
         }
-        for (Upgrade u : s.getUpgradeList()) {
-            if (u.getHitbox().contains(mouseLoc)) {
-                System.out.println(u.getCost());
-                money -= u.getCost();
-                u.increaseInventory();
+            for (int i = 0; i < s.getUpgradeList().size(); i++) {
+                Upgrade current = s.getUpgradeList().get(i);
+                if (current.getHitbox().contains(mouseLoc)) {
+                    money -= current.getCost();
+                    switch (i) {
+                        case 2:
+                            baseRainAmount *= 1.5;
+                            s.getUpgradeList().remove(i);
+                    }
+                    current.increaseInventory();
+                }
             }
-        }
+
     }
 
     public void mouseMoved(MouseEvent e) {
@@ -280,7 +286,6 @@ public class ArcadeDemo extends AnimationPanel
     {
 
         char c = e.getKeyChar();
-
     }
 
     public void keyPressed(KeyEvent e)

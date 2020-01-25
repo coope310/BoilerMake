@@ -10,6 +10,7 @@ public class Upgrade {
     static Image wheat;
     static Image corn;
     static Image beans;
+    static Image rainBarrels;
     private int cost;
     Rectangle hitbox;
 
@@ -17,7 +18,7 @@ public class Upgrade {
         this.xPos = xPos;
         this.yPos = yPos;
         this.cost = cost;
-        if (cost != 0) {
+        if (cost < 300) {
             inventory = 0;
         }
         hitbox = new Rectangle(xPos, yPos, 100, 60);
@@ -59,6 +60,9 @@ public class Upgrade {
             case 100:
                 g.drawImage(corn, xPos, yPos, it);
                 break;
+            case 500:
+                g.drawImage(rainBarrels, xPos, yPos, it);
+                break;
         }
         return g;
     }
@@ -66,5 +70,6 @@ public class Upgrade {
     public static void initGraphics(Toolkit t) {
         wheat = t.getImage("wheatU.jpg");
         corn = t.getImage("cornU.jpg");
+        rainBarrels = t.getImage("rainBarrels.jpg");
     }
 }
