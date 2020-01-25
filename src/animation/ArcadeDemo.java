@@ -9,14 +9,10 @@ package animation;
 
 import GameObjects.*;
 
-import java.awt.Graphics;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
 import java.applet.AudioClip;
-import java.awt.FontMetrics;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 
 
@@ -29,17 +25,18 @@ public class ArcadeDemo extends AnimationPanel
     //-------------------------------------------------------
     Shop s = new Shop();
     ArrayList<Land> lands = new ArrayList<>();
+    Rectangle farmGrid = new Rectangle(20, 20, 500, 500);
     int gridWidth = 10;
     int gridHeight = 10;
-    int tileSize = 10;
+    int tileSize = 50;
     //Constructor
     //-------------------------------------------------------
     public ArcadeDemo()
     {   //Enter the name and width and height.
-        super("AgriHack", 750, 550);
+        super("AgriHack", 750, 575);
         for(int i = 0; i < gridWidth; i++) {
             for(int j = 0; j < gridHeight; j++) {
-                lands.add(new Land(new Rectangle(i*10, j*10, tileSize, tileSize), "empty"));
+                lands.add(new Land(new Rectangle(farmGrid.x + i*tileSize, farmGrid.y + j*tileSize, tileSize, tileSize), "empty"));
             }
         }
     }
@@ -49,10 +46,11 @@ public class ArcadeDemo extends AnimationPanel
     protected Graphics renderFrame(Graphics g) {
 
         s.draw(g);
+        g.setColor(Color.BLACK);
+        g.fillRect(farmGrid.x, farmGrid.y, farmGrid.width, farmGrid.height);
         for(Land l : lands) {
             l.draw(g, this);
         }
-        System.out.println(lands.size());
         return g;
     }//--end of renderFrame method--
 
@@ -133,28 +131,6 @@ public class ArcadeDemo extends AnimationPanel
         Land.initGraphics(toolkit);
 
     } //--end of initGraphics()--
-
-    //-------------------------------------------------------
-    //Initialize Sounds
-    //-------------------------------------------------------
-//-----------------------------------------------------------------------
-/*  Music section...
- *  To add music clips to the program, do four things.
- *  1.  Make a declaration of the AudioClip by name ...  AudioClip clipname;
- *  2.  Actually make/get the .wav file and store it in the same directory as the code.
- *  3.  Add a line into the initMusic() function to load the clip.
- *  4.  Use the play(), stop() and loop() functions as needed in your code.
-//-----------------------------------------------------------------------*/
-    AudioClip themeMusic;
-    AudioClip bellSound;
-
-    public void initMusic()
-    {
-        themeMusic = loadClip("under.wav");
-        bellSound = loadClip("ding.wav");
-        //if(themeMusic != null)
-        //themeMusic.loop(); //This would make it play!
-    }
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }//--end of ArcadeDemo class--

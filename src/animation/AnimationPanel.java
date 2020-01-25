@@ -111,25 +111,5 @@ public abstract class AnimationPanel extends JPanel implements KeyListener, Mous
         g = renderFrame(g);
     }
 
-    //A utility to load audio clips!
-    public AudioClip loadClip(String fnm)
-    {
-        java.applet.AudioClip clip=null;
-        try
-        {
-            java.io.File file = new java.io.File(fnm);	// get a file for the name provided
-            if(file.exists())				// only try to use a real file
-            {
-                clip = java.applet.Applet.newAudioClip(file.toURL()); // get the audio clip
-            }
-            else
-                System.out.println("file="+fnm+" not found");
-        }
-        catch(Exception e)
-        {
-            System.out.println("Error building audio clip from file="+fnm);
-        }
-        return clip;
-    }
 
 } //-- End AnimationPanel() Class

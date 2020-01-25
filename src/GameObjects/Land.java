@@ -14,7 +14,9 @@ public class Land extends Tile {
 
     @Override
     public Graphics draw(Graphics g, ImageObserver it) {
-        g.drawImage(i, getBounds().x, getBounds().y, it);
+        g.drawImage(i, getBounds().x, getBounds().y, 49, 49, it);
+        g.setColor(Color.BLACK);
+        g.drawRect(getBounds().x, getBounds().y, getBounds().width, getBounds().height);
         return g;
     }
     public static void initGraphics(Toolkit t) {
