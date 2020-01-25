@@ -185,6 +185,7 @@ public class ArcadeDemo extends AnimationPanel
         Tile.initGraphics(t);
         Land.initGraphics(t);
         Farm.initGraphics(t);
+        Upgrade.initGraphics(t);
 
     } //--end of initGraphics()--
 
