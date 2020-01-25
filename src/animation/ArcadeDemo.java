@@ -24,7 +24,7 @@ public class ArcadeDemo extends AnimationPanel
     //-------------------------------------------------------
     //Instance Variables
     //-------------------------------------------------------
-
+    Shop s = new Shop();
 
     //Constructor
     //-------------------------------------------------------
@@ -37,7 +37,7 @@ public class ArcadeDemo extends AnimationPanel
     //-------------------------------------------------------
     protected Graphics renderFrame(Graphics g) {
 
-
+        s.draw(g);
         return g;
     }//--end of renderFrame method--
 
