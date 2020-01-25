@@ -23,15 +23,19 @@ public class ArcadeDemo extends AnimationPanel
 
     //Constants
     //-------------------------------------------------------
+    Image timeImage;
+    Image pauseImage;
     //Game Variables
     //-------------------------------------------------------
     int money = 5000;
     int water = 100;
 
     double time = 0;
+    boolean timeMoves = true;
     double timeRate = 1;
 
-    Circle timeCircle = new Circle(10, 470, 50);
+    Circle timeCircle = new Circle(10, 470, 45);
+    Circle pauseCircle = new Circle(10, 420, 45);
     //Instance Variables
     //-------------------------------------------------------
     Shop s = new Shop();
@@ -58,15 +62,22 @@ public class ArcadeDemo extends AnimationPanel
     //-------------------------------------------------------
     protected Graphics renderFrame(Graphics g) {
 
-        g.setColor(Color.BLACK);
+        //background
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, getWidth(), getHeight());
 
+        //stat variables
+        g.setColor(Color.BLACK);
         g.drawString("Money:", 10, 20);
         g.drawString("$" + money, 10, 33);
-        g.drawString("time: " + ((int) time*10)/10, 5, 50);
+        g.drawString("time: " + ((int) time*10)/10, 10, 55);
+        g.drawString("water: " + water, 10, 70);
+
         g.fillRect(farmGrid.x, farmGrid.y, farmGrid.width, farmGrid.height);
         for(Land l : lands) {
             l.draw(g, this);
-            l.update((int) timeRate, 10);
+            if(timeRate > 0)
+                l.update((int) timeRate, 10);
         }
 
         for (Upgrade u : s.upgradeList) {
@@ -76,16 +87,18 @@ public class ArcadeDemo extends AnimationPanel
                 g.drawString(u.getInventory() + "", u.getxPos() + 120, u.getyPos() + 40);
             }
         }
-        g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 
         farm.draw(g, this);
 
         //TIME STUFF
-        g.setColor(Color.WHITE);
-        timeCircle.draw(g);
-        time += timeRate/10;
+        g.drawImage(timeImage, timeCircle.getxPos(), timeCircle.getyPos(), timeCircle.getRadius(), timeCircle.getRadius(), this);
+        if(timeMoves)
+            time += timeRate/10;
         g.setColor(Color.BLACK);
-        g.drawString(timeRate + "", 25, 500);
+        drawCenteredString(g, timeRate + "", timeCircle.toRect());
+        //pause button
+        g.drawImage(pauseImage, pauseCircle.getxPos(), pauseCircle.getyPos(), pauseCircle.getRadius(), pauseCircle.getRadius(), this);
         return g;
     }//--end of renderFrame method--
 
@@ -125,6 +138,10 @@ public class ArcadeDemo extends AnimationPanel
             } else {
                 timeRate = 0.5;
             }
+        }
+
+        if(pauseCircle.contains(mouseLoc)) {
+            timeMoves = !timeMoves;
         }
 
         for(Land l : lands) {
@@ -186,6 +203,8 @@ public class ArcadeDemo extends AnimationPanel
         Land.initGraphics(t);
         Farm.initGraphics(t);
         Upgrade.initGraphics(t);
+        timeImage = t.getImage("time.jpg");
+        pauseImage = t.getImage("pause.jpg");
 
     } //--end of initGraphics()--
 

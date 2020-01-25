@@ -19,8 +19,24 @@ public class Circle {
     }
 
     public boolean contains(Point p) {
-        double distance = p.distance(new Point(xPos, yPos));
-        return distance < radius;
+        double distance = p.distance(new Point(xPos + radius/2, yPos + radius/2));
+        return distance < radius/2;
+    }
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public int getyPos() {
+        return yPos;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
+    public Rectangle toRect() {
+        return new Rectangle(xPos, yPos, radius, radius);
     }
 
 }
