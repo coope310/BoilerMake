@@ -44,12 +44,15 @@ public class ArcadeDemo extends AnimationPanel
     //The renderFrame method is the one which is called each time a frame is drawn.
     //-------------------------------------------------------
     protected Graphics renderFrame(Graphics g) {
-
-        s.draw(g);
+//        s.draw(g, this);
         g.setColor(Color.BLACK);
         g.fillRect(farmGrid.x, farmGrid.y, farmGrid.width, farmGrid.height);
         for(Land l : lands) {
             l.draw(g, this);
+        }
+
+        for (Upgrade u : s.upgradeList) {
+            u.draw(g, this);
         }
         return g;
     }//--end of renderFrame method--
@@ -129,6 +132,7 @@ public class ArcadeDemo extends AnimationPanel
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Tile.initGraphics(toolkit);
         Land.initGraphics(toolkit);
+        Upgrade.initGraphics(toolkit);
 
     } //--end of initGraphics()--
 
