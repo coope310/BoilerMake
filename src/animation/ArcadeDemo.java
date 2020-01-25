@@ -58,7 +58,6 @@ public class ArcadeDemo extends AnimationPanel
     //-------------------------------------------------------
     protected Graphics renderFrame(Graphics g) {
 
-        s.draw(g);
         g.setColor(Color.BLACK);
 
         g.drawString("Money:", 10, 20);
