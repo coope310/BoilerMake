@@ -7,6 +7,8 @@ package animation;
  * Adapted from the AppletAE demo from years past.
  */
 
+import GameObjects.*;
+
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
@@ -25,6 +27,7 @@ public class ArcadeDemo extends AnimationPanel
     //Instance Variables
     //-------------------------------------------------------
     Shop s = new Shop();
+    Tile t = new Tile();
 
     //Constructor
     //-------------------------------------------------------
@@ -38,6 +41,7 @@ public class ArcadeDemo extends AnimationPanel
     protected Graphics renderFrame(Graphics g) {
 
         s.draw(g);
+        t.draw(g, this);
         return g;
     }//--end of renderFrame method--
 
@@ -114,6 +118,7 @@ public class ArcadeDemo extends AnimationPanel
     public void initGraphics()
     {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Tile.initGraphics(toolkit);
 
     } //--end of initGraphics()--
 
