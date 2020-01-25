@@ -8,11 +8,11 @@ package animation;
  */
 
 import GameObjects.*;
+import util.*;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
-import java.applet.AudioClip;
 import java.util.ArrayList;
 
 
@@ -21,14 +21,25 @@ public class ArcadeDemo extends AnimationPanel
 
     //Constants
     //-------------------------------------------------------
+    //Game Variables
+    //-------------------------------------------------------
+    int money = 5000;
+    int water = 100;
+
+    int time = 0;
+    double timeRate = 1;
+
+    Circle timeCircle = new Circle(10, 470, 50);
     //Instance Variables
     //-------------------------------------------------------
     Shop s = new Shop();
     ArrayList<Land> lands = new ArrayList<>();
-    Rectangle farmGrid = new Rectangle(20, 20, 500, 500);
+    Rectangle farmGrid = new Rectangle(75, 20, 500, 500);
     int gridWidth = 10;
     int gridHeight = 10;
     int tileSize = 50;
+    int farmSize = 200;
+    Farm farm = new Farm(new Rectangle(farmGrid.x + farmGrid.width/2-farmSize/2, farmGrid.y + farmGrid.height/2-farmSize/2, farmSize, farmSize));
     //Constructor
     //-------------------------------------------------------
     public ArcadeDemo()
@@ -54,6 +65,15 @@ public class ArcadeDemo extends AnimationPanel
         for (Upgrade u : s.upgradeList) {
             u.draw(g, this);
         }
+
+        farm.draw(g, this);
+
+        //TIME STUFF
+        g.setColor(Color.WHITE);
+        timeCircle.draw(g);
+        time += timeRate;
+        g.setColor(Color.BLACK);
+        g.drawString(timeRate + "", 25, 500);
         return g;
     }//--end of renderFrame method--
 
@@ -87,7 +107,13 @@ public class ArcadeDemo extends AnimationPanel
     //-------------------------------------------------------
     public void mouseClicked(MouseEvent e) {
         Point mouseLoc = new Point(e.getX(), e.getY());
-
+        if(timeCircle.contains(mouseLoc)) {
+            if(timeRate < 16) {
+                timeRate *= 2;
+            } else {
+                timeRate = 0.5;
+            }
+        }
     }
 
     public void mouseMoved(MouseEvent e) {
@@ -129,9 +155,10 @@ public class ArcadeDemo extends AnimationPanel
 //-----------------------------------------------------------------------*/
     public void initGraphics()
     {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Tile.initGraphics(toolkit);
-        Land.initGraphics(toolkit);
+        Toolkit t = Toolkit.getDefaultToolkit();
+        Tile.initGraphics(t);
+        Land.initGraphics(t);
+        Farm.initGraphics(t);
         Upgrade.initGraphics(toolkit);
 
     } //--end of initGraphics()--
