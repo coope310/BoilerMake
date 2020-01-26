@@ -32,6 +32,8 @@ public class ArcadeDemo extends AnimationPanel
     Image arrowRight;//i started to add arrows so you can select entire rows but i think that will take too long so nevermind
 
     Image sickle;
+    Image coinImage;
+    Image waterImage;
 
     double rainChance = 0.05;
 
@@ -100,11 +102,15 @@ public class ArcadeDemo extends AnimationPanel
         //stat variables
         g.setColor(Color.BLACK);
 
-        g.drawString("Money:", 10, 20);
-        g.drawString("$" + money, 10, 33);
-        g.drawString("time: " + ((int) time*10)/10, 10, 55);
-        g.drawString("water: " + water, 10, 70);
+        g.drawImage(coinImage, 5, 11, 20, 20,  this);
+        g.drawString("Money:", 30, 20);
+        g.drawString("$" + money, 30, 33);
 
+        g.drawImage(waterImage, 5, 45, 20, 25, this);
+        g.drawString("water: " , 30, 55);
+        g.drawString(water + "", 25, 70);
+
+        g.drawString("time: " + ((int) time*10)/10, 10, 530);
         //will it rain?
         if(timeMoves) {
             for (int i = 0; i < timeRate; i++) {
@@ -360,6 +366,8 @@ public class ArcadeDemo extends AnimationPanel
         arrowRight = t.getImage("arrowright.jpg");
         title = t.getImage("shopTitle.jpg");
         sickle = t.getImage("sickle.png");
+        waterImage = t.getImage("water.jpg");
+        coinImage = t.getImage("coin.jpg");
 
     } //--end of initGraphics()--
 
