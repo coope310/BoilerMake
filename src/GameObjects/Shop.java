@@ -11,7 +11,8 @@ public class Shop {
         upgradeList = new ArrayList<>();
         upgradeList.add(new Upgrade(575,  80, 75));
         upgradeList.add(new Upgrade(575,  140, 100));
-        upgradeList.add(new Upgrade(575, 200, 500));
+        upgradeList.add(new Upgrade(575, 200, 1250));
+        upgradeList.add(new Upgrade(575, 260, 500));
     }
 
     public static ArrayList<Upgrade> getUpgradeList() {

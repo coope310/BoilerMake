@@ -41,6 +41,7 @@ public class ArcadeDemo extends AnimationPanel
     int water = 10000;
 
     int plantChoice = -1;
+    int barrelLevel = 0;
 
     double time = 0;
     boolean timeMoves = true;
@@ -280,18 +281,23 @@ public class ArcadeDemo extends AnimationPanel
             }
 
         }
-            for (int i = 0; i < s.getUpgradeList().size(); i++) {
-                Upgrade current = s.getUpgradeList().get(i);
-                if (current.getHitbox().contains(mouseLoc)) {
-                    money -= current.getCost();
-                    switch (i) {
-                        case 2:
-                            baseRainAmount *= 1.5;
-                            s.getUpgradeList().remove(i);
-                    }
-                    current.increaseInventory();
+
+        for (int i = 0; i < s.getUpgradeList().size(); i++) {
+            Upgrade current = s.getUpgradeList().get(i);
+            if (current.getHitbox().contains(mouseLoc)) {
+                money -= current.getCost();
+                switch (i) {
+                    case 2:
+                        water += 10000;
+                        break;
+                    case 3:
+                        baseRainAmount *= 1.5;
+                        barrelLevel ++;
+                        current.setCost(current.getCost() * 2);
                 }
+                current.increaseInventory();
             }
+        }
 
     }
 
