@@ -17,8 +17,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static GameObjects.Plant.CORN;
-import static GameObjects.Plant.WHEAT;
+import static GameObjects.Plant.*;
 
 public class ArcadeDemo extends AnimationPanel
 {
@@ -156,7 +155,7 @@ public class ArcadeDemo extends AnimationPanel
 
         for (Upgrade u : s.upgradeList) {
             u.draw(g, this);
-            if (u.getCost() < 400) {
+            if (u.getCost() <= 400) {
                 g.setFont(new Font("TimesRoman", Font.BOLD, 18));
                 g.drawString(u.getInventory() + "", u.getxPos() + 120, u.getyPos() + 40);
             }
@@ -276,6 +275,13 @@ public class ArcadeDemo extends AnimationPanel
                                 case 1:
                                     l.plantCrop(CORN);
                                     break;
+                                case 2:
+                                    l.plantCrop(BEAN);
+                                    break;
+                                case 3:
+                                    l.plantCrop(RICE);
+                                case 4:
+                                    l.plantCrop(TOBACCO);
                             }
                             s.getUpgradeList().get(plantChoice).decreaseInventory();
                         }
@@ -298,10 +304,10 @@ public class ArcadeDemo extends AnimationPanel
                 if (money >= current.getCost()) {
                     money -= current.getCost();
                     switch (i) {
-                        case 2:
+                        case 6:
                             water += 10000;
                             break;
-                        case 3:
+                        case 7:
                             baseRainAmount *= 1.5;
                             barrelLevel++;
                             current.setCost(current.getCost() * 2);

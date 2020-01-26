@@ -10,6 +10,8 @@ public class Upgrade {
     static Image wheat;
     static Image corn;
     static Image beans;
+    static Image rice;
+    static Image tobacco;
     static Image water;
     static Image rainBarrels;
     private int cost;
@@ -77,6 +79,9 @@ public class Upgrade {
     public static void initGraphics(Toolkit t) {
         wheat = t.getImage("wheatU.jpg");
         corn = t.getImage("cornU.jpg");
+        beans = t.getImage("beans.jgp");
+        rice = t.getImage("rice.jpg");
+        tobacco = t.getImage("tobacco.jpg");
         water = t.getImage("water.jpg");
         rainBarrels = t.getImage("rainBarrels.jpg");
     }
