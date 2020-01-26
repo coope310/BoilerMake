@@ -3,6 +3,9 @@ package GameObjects;
 public enum Plant {
     CORN (100, 2, 300, 0.5),
     WHEAT(75, 1, 150, 1),
+    BEAN(25, 2, 50, 1),
+    RICE(325, 4, 500, 1),
+    TOBACCO(400, 2, 750, 2)
     ;
 
     private int cost;
