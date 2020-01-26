@@ -33,6 +33,7 @@ public class ArcadeDemo extends AnimationPanel
 
     Image sickle;
     Image coinImage;
+    Image waterIcon;
     Image waterImage;
 
     double rainChance = 0.05;
@@ -106,7 +107,7 @@ public class ArcadeDemo extends AnimationPanel
         g.drawString("Money:", 30, 20);
         g.drawString("$" + money, 30, 33);
 
-        g.drawImage(waterImage, 5, 45, 20, 25, this);
+        g.drawImage(waterIcon, 5, 45, 20, 25, this);
         g.drawString("water: " , 30, 55);
         g.drawString(water + "", 25, 70);
 
@@ -367,6 +368,7 @@ public class ArcadeDemo extends AnimationPanel
         title = t.getImage("shopTitle.jpg");
         sickle = t.getImage("sickle.png");
         waterImage = t.getImage("water.jpg");
+        waterIcon = t.getImage("watericon.jpg");
         coinImage = t.getImage("coin.jpg");
 
     } //--end of initGraphics()--
