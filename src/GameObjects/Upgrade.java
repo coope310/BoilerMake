@@ -61,7 +61,7 @@ public class Upgrade {
 
     public Graphics draw(Graphics g, ImageObserver it) {
         switch (cost) {
-            case 50:
+            case 25:
                 g.drawImage(beans, xPos, yPos, it);
                 break;
             case 75:
@@ -88,7 +88,7 @@ public class Upgrade {
     public static void initGraphics(Toolkit t) {
         wheat = t.getImage("wheatU.jpg");
         corn = t.getImage("cornU.jpg");
-        beans = t.getImage("beans.jgp");
+        beans = t.getImage("bean.jpg");
         rice = t.getImage("rice.jpg");
         tobacco = t.getImage("tobacco.jpg");
         water = t.getImage("water.jpg");

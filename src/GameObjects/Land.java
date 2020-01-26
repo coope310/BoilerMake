@@ -66,6 +66,15 @@ public class Land extends Tile {
                 case CORN:
                     letter = "C";
                     break;
+                case BEAN:
+                    letter = "B";
+                    break;
+                case RICE:
+                    letter = "R";
+                    break;
+                case TOBACCO:
+                    letter = "T";
+                    break;
             }
             g.drawString(letter, getBounds().x + offset, getBounds().y + getBounds().height - offset);
         }
