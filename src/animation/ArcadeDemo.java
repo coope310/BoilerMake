@@ -280,8 +280,10 @@ public class ArcadeDemo extends AnimationPanel
                                     break;
                                 case 3:
                                     l.plantCrop(RICE);
+                                    break;
                                 case 4:
                                     l.plantCrop(TOBACCO);
+                                    break;
                             }
                             s.getUpgradeList().get(plantChoice).decreaseInventory();
                         }
