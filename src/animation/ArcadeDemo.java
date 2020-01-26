@@ -280,6 +280,7 @@ public class ArcadeDemo extends AnimationPanel
                             s.getUpgradeList().get(plantChoice).decreaseInventory();
                         }
                     }
+                    //
                 } else {
                     Plant crop = l.getCrop();
                     if (l.readyToHarvest()) {
