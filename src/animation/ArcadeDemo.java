@@ -262,21 +262,23 @@ public class ArcadeDemo extends AnimationPanel
         for (Land l : lands) {
             if (l.getBounds().contains(mouseLoc)) {
                 if (!harvestMode) {
-                    if (plantChoice != -1) {
-                        if (s.getUpgradeList().get(plantChoice).getInventory() <= 0) {
-                            inventoryButtons.get(plantChoice).setSelected(false);
-                            plantChoice = -1;
-                            break;
-                        }
-                        switch (plantChoice) {
-                            case 0:
-                                l.plantCrop(WHEAT);
+                    if (!l.hasCrop()) {
+                        if (plantChoice != -1) {
+                            if (s.getUpgradeList().get(plantChoice).getInventory() <= 0) {
+                                inventoryButtons.get(plantChoice).setSelected(false);
+                                plantChoice = -1;
                                 break;
-                            case 1:
-                                l.plantCrop(CORN);
-                                break;
+                            }
+                            switch (plantChoice) {
+                                case 0:
+                                    l.plantCrop(WHEAT);
+                                    break;
+                                case 1:
+                                    l.plantCrop(CORN);
+                                    break;
+                            }
+                            s.getUpgradeList().get(plantChoice).decreaseInventory();
                         }
-                        s.getUpgradeList().get(plantChoice).decreaseInventory();
                     }
                 } else {
                     Plant crop = l.getCrop();
@@ -292,17 +294,19 @@ public class ArcadeDemo extends AnimationPanel
         for (int i = 0; i < s.getUpgradeList().size(); i++) {
             Upgrade current = s.getUpgradeList().get(i);
             if (current.getHitbox().contains(mouseLoc)) {
-                money -= current.getCost();
-                switch (i) {
-                    case 2:
-                        water += 10000;
-                        break;
-                    case 3:
-                        baseRainAmount *= 1.5;
-                        barrelLevel ++;
-                        current.setCost(current.getCost() * 2);
+                if (money >= current.getCost()) {
+                    money -= current.getCost();
+                    switch (i) {
+                        case 2:
+                            water += 10000;
+                            break;
+                        case 3:
+                            baseRainAmount *= 1.5;
+                            barrelLevel++;
+                            current.setCost(current.getCost() * 2);
+                    }
+                    current.increaseInventory();
                 }
-                current.increaseInventory();
             }
         }
 
