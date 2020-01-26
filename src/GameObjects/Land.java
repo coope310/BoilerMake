@@ -45,6 +45,7 @@ public class Land extends Tile {
         if(readyToHarvest) {
             i = land5;
             fontColor = (Color.BLACK);
+
         }
 
 
@@ -88,6 +89,16 @@ public class Land extends Tile {
                 hasCrop = false;
                 cropAge = 0;
             }
+
+        }
+    }
+
+    public void age(double timePassed) {
+        cropAge += timePassed;
+        if(cropAge > 3*crop.getTimeToGrowInTime()) { //rots, plant goes away
+            readyToHarvest = false;
+            hasCrop = false;
+            cropAge = 0;
         }
     }
 

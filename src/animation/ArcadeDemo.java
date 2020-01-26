@@ -117,17 +117,17 @@ public class ArcadeDemo extends AnimationPanel
         g.fillRect(farmGrid.x, farmGrid.y, farmGrid.width, farmGrid.height);
         for(Land l : lands) {
             l.draw(g, this);
-            if(timeRate > 0) {
-                if(l.hasCrop()) {
-                    if (!l.readyToHarvest()) {
-                        Plant p = l.getCrop();
-                        int waterNeeded = p.getWaterCost();
-                        if (waterNeeded < water) {
-                            water -= waterNeeded;
-                            l.update( timeRate, (int) Math.round((waterNeeded * timeRate)));
-                        } else {
-                            l.update(timeRate, 0);
-                        }
+            if(timeRate > 0 && l.hasCrop()) {
+                Plant p = l.getCrop();
+                int waterNeeded = p.getWaterCost();
+                if (waterNeeded < water && !l.readyToHarvest()) {
+                    water -= waterNeeded;
+                    l.update( timeRate, (int) Math.round((waterNeeded * timeRate)));
+                } else {
+                    if(l.readyToHarvest()) {
+                        l.age(timeRate);
+                    } else {
+                        l.update(timeRate, 0);
                     }
 
                 }
