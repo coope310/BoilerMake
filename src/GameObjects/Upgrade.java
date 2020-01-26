@@ -61,11 +61,20 @@ public class Upgrade {
 
     public Graphics draw(Graphics g, ImageObserver it) {
         switch (cost) {
+            case 50:
+                g.drawImage(beans, xPos, yPos, it);
+                break;
             case 75:
                 g.drawImage(wheat, xPos, yPos, it);
                 break;
             case 100:
                 g.drawImage(corn, xPos, yPos, it);
+                break;
+            case 325:
+                g.drawImage(rice, xPos, yPos, it);
+                break;
+            case 400:
+                g.drawImage(tobacco, xPos, yPos, it);
                 break;
             case 1250:
                 g.drawImage(water, xPos, yPos, it);
