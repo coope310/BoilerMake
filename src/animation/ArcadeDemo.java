@@ -306,10 +306,10 @@ public class ArcadeDemo extends AnimationPanel
                 if (money >= current.getCost()) {
                     money -= current.getCost();
                     switch (i) {
-                        case 6:
+                        case 5:
                             water += 10000;
                             break;
-                        case 7:
+                        case 6:
                             baseRainAmount *= 1.5;
                             barrelLevel++;
                             current.setCost(current.getCost() * 2);
