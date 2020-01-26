@@ -86,7 +86,7 @@ public class ArcadeDemo extends AnimationPanel
             }
         }
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 5; i++) {
             inventoryButtons.add(new InventoryButtons(new Rectangle(675, 80 + 60 * i, 60, 60 ), i));
         }
     }
