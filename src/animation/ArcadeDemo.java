@@ -10,6 +10,7 @@ package animation;
 import GameObjects.*;
 import util.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
@@ -48,7 +49,11 @@ public class ArcadeDemo extends AnimationPanel
     Circle timeCircle = new Circle(10, 470, 45);
     Circle pauseCircle = new Circle(10, 420, 45);
     Rectangle harvestBounds = new Rectangle(10, 370, 45, 45);
+
     boolean harvestMode = false;
+
+
+    Rectangle infoBounds = new Rectangle(10, 100, 45, 45);
 
     //rain
     //upgrading your rain barrels increases this
@@ -149,6 +154,12 @@ public class ArcadeDemo extends AnimationPanel
             }
         }
 
+        g.setColor(Color.ORANGE);
+        g.fillRect(infoBounds.x, infoBounds.y, infoBounds.width, infoBounds.height);
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("TimesRoman", Font.BOLD, 50));
+        drawCenteredString(g, "?", infoBounds);
+
         g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
 
         farm.draw(g, this);
@@ -196,7 +207,17 @@ public class ArcadeDemo extends AnimationPanel
     //Respond to Mouse Events
     //-------------------------------------------------------
     public void mouseClicked(MouseEvent e) {
+
         Point mouseLoc = new Point(e.getX(), e.getY());
+
+        if(infoBounds.contains(mouseLoc)) {
+            JOptionPane.showMessageDialog(null, "Welcome to AgriHack! Your goal is to make a " +
+                    "profit by selling crops as a farmer. \n" + "You should try to optimize how you use your resources " +
+                    "by balancing how long \n" + "each crop takes to grow, how much water it needs, its initial cost, " +
+                    "and its\n" + "selling price. You can press 'h' to harvest all harvestable crops at once. \n" +
+                    "Harvesting crops immediately sells them for their price. Rolling over crops\n" + "in the shop shows " +
+                    "their stats.", "Help", JOptionPane.INFORMATION_MESSAGE);
+        }
         if (timeCircle.contains(mouseLoc)) {
             if (timeRate < 16) {
                 timeRate *= 2;
